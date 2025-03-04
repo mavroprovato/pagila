@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
+use App\Entity\Country;
 use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,5 +27,17 @@ class CountryController extends AbstractController
     public function list(CountryRepository $repository): Response
     {
         return $this->json($repository->findAll());
+    }
+
+    /**
+     * Return a county.
+     *
+     * @param Country $country The country.
+     * @return Response The response.
+     */
+    #[Route('/{id}', name: 'countries_read')]
+    public function show(Country $country): Response
+    {
+        return $this->json($country);
     }
 }
