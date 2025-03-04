@@ -55,7 +55,7 @@ class Country
      * @param string $country The country name.
      * @return $this The country.
      */
-    public function setCountry(string $country): static
+    public function setCountry(string $country): self
     {
         $this->country = $country;
 
@@ -78,7 +78,7 @@ class Country
      * @param DateTimeImmutable $lastUpdate The country last update.
      * @return $this The country.
      */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): static
+    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
 
