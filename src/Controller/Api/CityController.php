@@ -26,7 +26,12 @@ class CityController extends AbstractController
     #[Route('/', name: 'cities_list')]
     public function list(CityRepository $repository): Response
     {
-        return $this->json($repository->findAll());
+        $results = $repository->createQueryBuilder('city')
+            ->select('city', 'country')
+            ->leftJoin("city.country", "country")
+            ->getQuery()->getResult();
+
+        return $this->json($results);
     }
 
     /**
