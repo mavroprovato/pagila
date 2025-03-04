@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250304030053 extends AbstractMigration
+final class Version20250304040427 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,9 @@ final class Version20250304030053 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE address (address_id SERIAL NOT NULL, city_id INT DEFAULT NULL, address VARCHAR(255) NOT NULL, address2 VARCHAR(255) DEFAULT NULL, district VARCHAR(255) DEFAULT NULL, postal_code VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(address_id))');
+        $this->addSql('CREATE INDEX IDX_D4E6F818BAC62AF ON address (city_id)');
+        $this->addSql('COMMENT ON COLUMN address.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE city (city_id SERIAL NOT NULL, country_id INT DEFAULT NULL, city VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(city_id))');
         $this->addSql('CREATE INDEX IDX_2D5B0234F92F3E70 ON city (country_id)');
         $this->addSql('COMMENT ON COLUMN city.last_update IS \'(DC2Type:datetimetz_immutable)\'');
@@ -40,6 +43,7 @@ final class Version20250304030053 extends AbstractMigration
         $$ LANGUAGE plpgsql;');
         $this->addSql('DROP TRIGGER IF EXISTS notify_trigger ON messenger_messages;');
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
+        $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F818BAC62AF FOREIGN KEY (city_id) REFERENCES city (city_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE city ADD CONSTRAINT FK_2D5B0234F92F3E70 FOREIGN KEY (country_id) REFERENCES country (country_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -47,7 +51,9 @@ final class Version20250304030053 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F818BAC62AF');
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
+        $this->addSql('DROP TABLE address');
         $this->addSql('DROP TABLE city');
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE messenger_messages');
