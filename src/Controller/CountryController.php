@@ -25,14 +25,6 @@ class CountryController extends AbstractController
     #[Route('/', name: 'countries_list')]
     public function list(CountryRepository $repository): Response
     {
-        $result = [];
-        foreach ($repository->findAll() as $country) {
-            $result[]= [
-                'id' => $country->getId(), 'country' => $country->getCountry(),
-                'last_update' => $country->getLastUpdate()
-            ];
-        }
-
-        return $this->json($result);
+        return $this->json($repository->findAll());
     }
 }
