@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Country;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,9 +17,23 @@ use Symfony\Component\Routing\Attribute\Route;
 class CountryController extends AbstractController
 {
 
+    /**
+     * List countries.
+     *
+     * @param EntityManagerInterface $entityManager The entity manager interface.
+     * @return Response The response.
+     */
     #[Route('/', name: 'countries_list')]
-    public function list(): Response
+    public function list(EntityManagerInterface $entityManager): Response
     {
-        return $this->json(['id' => 1, 'country' => 'Afghanistan']);
+        $result = [];
+        foreach ($entityManager->getRepository(Country::class)->findAll() as $country) {
+            $result[]= [
+                'id' => $country->getId(), 'country' => $country->getCountry(),
+                'last_update' => $country->getLastUpdate()
+            ];
+        }
+
+        return $this->json($result);
     }
 }
