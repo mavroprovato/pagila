@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250306201930 extends AbstractMigration
+final class Version20250306205824 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -32,6 +32,8 @@ final class Version20250306201930 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN city.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE country (country_id SERIAL NOT NULL, country VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(country_id))');
         $this->addSql('COMMENT ON COLUMN country.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(language_id))');
+        $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
@@ -62,6 +64,7 @@ final class Version20250306201930 extends AbstractMigration
         $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE city');
         $this->addSql('DROP TABLE country');
+        $this->addSql('DROP TABLE language');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }
