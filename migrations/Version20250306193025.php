@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250305215012 extends AbstractMigration
+final class Version20250306193025 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,7 +23,7 @@ final class Version20250305215012 extends AbstractMigration
         $this->addSql('CREATE TABLE address (address_id SERIAL NOT NULL, city_id INT DEFAULT NULL, address VARCHAR(255) NOT NULL, address2 VARCHAR(255) DEFAULT NULL, district VARCHAR(255) DEFAULT NULL, postal_code VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(address_id))');
         $this->addSql('CREATE INDEX IDX_D4E6F818BAC62AF ON address (city_id)');
         $this->addSql('COMMENT ON COLUMN address.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE category (country_id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(country_id))');
+        $this->addSql('CREATE TABLE category (category_id SERIAL NOT NULL, name VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(category_id))');
         $this->addSql('COMMENT ON COLUMN category.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE city (city_id SERIAL NOT NULL, country_id INT DEFAULT NULL, city VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(city_id))');
         $this->addSql('CREATE INDEX IDX_2D5B0234F92F3E70 ON city (country_id)');

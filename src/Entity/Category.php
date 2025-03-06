@@ -18,7 +18,7 @@ class Category
     /** @var int|null The category internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'country_id')]
+    #[ORM\Column(name: 'category_id')]
     private ?int $id = null;
 
     /** @var string|null The category name */
