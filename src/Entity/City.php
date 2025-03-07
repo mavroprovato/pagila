@@ -26,10 +26,10 @@ class City
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    /** @var Country The country for the city */
+    /** @var Country|null The country for the city */
     #[ORM\ManyToOne(targetEntity: Country::class)]
     #[ORM\JoinColumn(referencedColumnName: 'country_id')]
-    private Country $country;
+    private ?Country $country;
 
     /**
      * Return the city internal identifier.
@@ -80,7 +80,7 @@ class City
      * @param Country|null $country The country.
      * @return $this The city.
      */
-    public function setCountry(?Country $country): self
+    public function setCountry(?Country $country): City
     {
         $this->country = $country;
 

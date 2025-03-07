@@ -53,6 +53,16 @@ class Film
     #[ORM\Column(name: 'replacement_cost',type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?string $replacementCost = null;
 
+    /** @var Language The language of the film */
+    #[ORM\ManyToOne(targetEntity: Language::class)]
+    #[ORM\JoinColumn(referencedColumnName: 'language_id')]
+    private Language $language;
+
+    /** @var Language|null The original language of the film. Used when a film has been dubbed into a new language */
+    #[ORM\ManyToOne(targetEntity: Language::class)]
+    #[ORM\JoinColumn(referencedColumnName: 'language_id', nullable: true)]
+    private ?Language $originalLanguage = null;
+
     /**
      * Return the film internal identifier.
      *
@@ -222,6 +232,53 @@ class Film
     public function setReplacementCost(?string $replacementCost): Film
     {
         $this->replacementCost = $replacementCost;
+
+        return $this;
+    }
+
+    /**
+     * Get The language of the film.
+     *
+     * @return Language|null The language of the film.
+     */
+    public function getLanguage(): ?Language
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set the language of the film.
+     *
+     * @param Language|null $language The language of the film.
+     * @return $this The film.
+     */
+    public function setLanguage(?Language $language): Film
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get The original language of the film. Used when a film has been dubbed into a new language.
+     *
+     * @return Language|null The original language of the film. Used when a film has been dubbed into a new language.
+     */
+    public function getOriginalLanguage(): ?Language
+    {
+        return $this->originalLanguage;
+    }
+
+    /**
+     * Set the original language of the film. Used when a film has been dubbed into a new language.
+     *
+     * @param Language|null $originalLanguage The original language of the film. Used when a film has been dubbed into
+     * a new language.
+     * @return $this The city.
+     */
+    public function setOriginalLanguage(?Language $originalLanguage): Film
+    {
+        $this->originalLanguage = $originalLanguage;
 
         return $this;
     }
