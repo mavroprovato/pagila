@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250307232116 extends AbstractMigration
+final class Version20250307233837 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -32,7 +32,7 @@ final class Version20250307232116 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN city.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE country (country_id SERIAL NOT NULL, country VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(country_id))');
         $this->addSql('COMMENT ON COLUMN country.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, release_year SMALLINT NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
+        $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, release_year SMALLINT NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, rating VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
         $this->addSql('CREATE INDEX IDX_8244BE2282F1BAF4 ON film (language_id)');
         $this->addSql('CREATE INDEX IDX_8244BE2275FE5ADE ON film (original_language_id)');
         $this->addSql('COMMENT ON COLUMN film.last_update IS \'(DC2Type:datetimetz_immutable)\'');

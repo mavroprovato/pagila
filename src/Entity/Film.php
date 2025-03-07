@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
+use App\Enums\Rating;
 use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -52,6 +53,10 @@ class Film
      */
     #[ORM\Column(name: 'replacement_cost',type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?string $replacementCost = null;
+
+    /** @var Rating The rating assigned to the film */
+    #[ORM\Column(type: Types::STRING, enumType: Rating::class)]
+    private Rating $rating;
 
     /** @var Language The language of the film */
     #[ORM\ManyToOne(targetEntity: Language::class)]
@@ -232,6 +237,29 @@ class Film
     public function setReplacementCost(?string $replacementCost): Film
     {
         $this->replacementCost = $replacementCost;
+
+        return $this;
+    }
+
+    /**
+     * Get the rating assigned to the film.
+     *
+     * @return Rating|null rating assigned to the film.
+     */
+    public function getRating(): ?Rating
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set the rating assigned to the film.
+     *
+     * @param Rating|null $rating The rating assigned to the film.
+     * @return $this The film.
+     */
+    public function setRating(?Rating $rating): Film
+    {
+        $this->rating = $rating;
 
         return $this;
     }
