@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\LanguageRepository;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LanguageRepository::class)]
 class Language
 {
+    use LastUpdate;
+
     /** @var int|null The language internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,10 +25,6 @@ class Language
     /** @var string|null The English name of the language */
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    /** @var DateTimeImmutable|null The last update date for the country */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /**
      * Return the language internal identifier.
@@ -58,29 +55,6 @@ class Language
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Return the language last update.
-     *
-     * @return DateTimeImmutable|null The language last update.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * Set the language last update.
-     *
-     * @param DateTimeImmutable $lastUpdate The language last update.
-     * @return $this The language.
-     */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

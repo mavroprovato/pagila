@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\CategoryRepository;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
+    use LastUpdate;
+
     /** @var int|null The category internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,10 +25,6 @@ class Category
     /** @var string|null The category name */
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    /** @var DateTimeImmutable|null The last update date for the country */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /**
      * Return the country internal identifier.
@@ -58,29 +55,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Return the category last update.
-     *
-     * @return DateTimeImmutable|null The category last update.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * Set the country last update.
-     *
-     * @param DateTimeImmutable $lastUpdate The country last update.
-     * @return $this The country.
-     */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

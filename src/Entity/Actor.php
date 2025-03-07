@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\ActorRepository;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 class Actor
 {
+    use LastUpdate;
+
     /** @var int|null The actor internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,10 +29,6 @@ class Actor
     /** @var string|null The actor last name */
     #[ORM\Column(name: 'last_name', length: 255)]
     private ?string $lastName = null;
-
-    /** @var DateTimeImmutable|null The last update date for the country */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /**
      * Return the country internal identifier.
@@ -85,29 +82,6 @@ class Actor
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Return the country last update.
-     *
-     * @return DateTimeImmutable|null The country last update.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * Set the country last update.
-     *
-     * @param DateTimeImmutable $lastUpdate The country last update.
-     * @return $this The country.
-     */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

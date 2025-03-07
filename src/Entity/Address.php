@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\AddressRepository;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
 {
+    use LastUpdate;
+
     /** @var int|null The address internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -40,10 +41,6 @@ class Address
     /** @var string|null The telephone number for the address */
     #[ORM\Column(nullable: true)]
     private ?string $phone = null;
-
-    /** @var DateTimeImmutable|null The last update date for the address */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /** @var City The city for the address */
     #[ORM\ManyToOne(targetEntity: City::class)]
@@ -173,16 +170,6 @@ class Address
         $this->phone = $phone;
 
         return $this;
-    }
-
-    /**
-     * Set the last update of the address.
-     *
-     * @return DateTimeImmutable|null The last update of the address.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
     }
 
     /**

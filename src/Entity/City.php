@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\CityRepository;
-use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
 {
+    use LastUpdate;
+
     /** @var int|null The city internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,10 +25,6 @@ class City
     /** @var string|null The city name */
     #[ORM\Column(length: 255)]
     private ?string $city = null;
-
-    /** @var DateTimeImmutable|null The last update date for the city */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /** @var Country The country for the city */
     #[ORM\ManyToOne(targetEntity: Country::class)]
@@ -63,29 +60,6 @@ class City
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Return the city last update.
-     *
-     * @return DateTimeImmutable|null The city last update.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * Set the city last update.
-     *
-     * @param DateTimeImmutable $lastUpdate The city last update.
-     * @return $this The city.
-     */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

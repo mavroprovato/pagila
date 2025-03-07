@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\LastUpdate;
 use App\Repository\FilmRepository;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
 class Film
 {
+    use LastUpdate;
+
     /** @var int|null The film internal identifier */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,10 +52,6 @@ class Film
      */
     #[ORM\Column(name: 'replacement_cost',type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?string $replacementCost = null;
-
-    /** @var DateTimeImmutable|null The last update date for the film */
-    #[ORM\Column(name: 'last_update', type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?DateTimeImmutable $lastUpdate = null;
 
     /**
      * Return the film internal identifier.
@@ -224,29 +222,6 @@ class Film
     public function setReplacementCost(?string $replacementCost): Film
     {
         $this->replacementCost = $replacementCost;
-
-        return $this;
-    }
-
-    /**
-     * Return the film last update.
-     *
-     * @return DateTimeImmutable|null The film last update.
-     */
-    public function getLastUpdate(): ?DateTimeImmutable
-    {
-        return $this->lastUpdate;
-    }
-
-    /**
-     * Set the film last update.
-     *
-     * @param DateTimeImmutable $lastUpdate The film last update.
-     * @return $this The film.
-     */
-    public function setLastUpdate(DateTimeImmutable $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }
