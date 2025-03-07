@@ -21,7 +21,7 @@ class Country
     #[ORM\Column(name: 'country_id')]
     private ?int $id = null;
 
-    /** @var string|null The country name */
+    /** @var string|null The name of the country */
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
@@ -40,9 +40,9 @@ class Country
     }
 
     /**
-     * Get the country name.
+     * Get the name of the country.
      *
-     * @return string|null The country name.
+     * @return string|null The name of the country.
      */
     public function getCountry(): ?string
     {
@@ -50,9 +50,9 @@ class Country
     }
 
     /**
-     * Set the country name.
+     * Set the name of the country.
      *
-     * @param string $country The country name.
+     * @param string $country The name of the country.
      * @return $this The country.
      */
     public function setCountry(string $country): self

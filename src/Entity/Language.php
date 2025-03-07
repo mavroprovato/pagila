@@ -21,7 +21,7 @@ class Language
     #[ORM\Column(name: 'language_id')]
     private ?int $id = null;
 
-    /** @var string|null The language name */
+    /** @var string|null The English name of the language */
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -40,7 +40,7 @@ class Language
     }
 
     /**
-     * Get the language name.
+     * Get the English name of the language.
      *
      * @return string|null The language name.
      */
@@ -50,9 +50,9 @@ class Language
     }
 
     /**
-     * Set the language name.
+     * Set the English name of the language.
      *
-     * @param string $name The language name.
+     * @param string $name The English name of the language.
      * @return $this The language.
      */
     public function setName(string $name): self

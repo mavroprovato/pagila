@@ -33,11 +33,11 @@ class Address
     #[ORM\Column(nullable: true)]
     private ?string $district = null;
 
-    /** @var string|null The postal code of the address */
+    /** @var string|null The postal code or ZIP code of the address */
     #[ORM\Column(name: 'postal_code', nullable: true)]
     private ?string $postalCode = null;
 
-    /** @var string|null The phone of the address */
+    /** @var string|null The telephone number for the address */
     #[ORM\Column(nullable: true)]
     private ?string $phone = null;
 
@@ -130,9 +130,9 @@ class Address
     }
 
     /**
-     * Get the postal code of the address.
+     * Get the postal code or ZIP code of the address.
      *
-     * @return string|null The postal code of the address.
+     * @return string|null The postal code or ZIP code of the address.
      */
     public function getPostalCode(): ?string
     {
@@ -140,9 +140,9 @@ class Address
     }
 
     /**
-     * Set the postal code of the address.
+     * Set the postal code or ZIP code of the address.
      *
-     * @param string|null $postalCode The postal code of the address.
+     * @param string|null $postalCode The postal code or ZIP code of the address.
      * @return $this The address.
      */
     public function setPostalCode(?string $postalCode): Address
@@ -153,9 +153,9 @@ class Address
     }
 
     /**
-     * Get the phone of the address.
+     * Get the telephone number for the address.
      *
-     * @return string|null The phone of the address.
+     * @return string|null The telephone number for the address.
      */
     public function getPhone(): ?string
     {
@@ -163,9 +163,9 @@ class Address
     }
 
     /**
-     * Set the phone of the address.
+     * Set the telephone number for the address.
      *
-     * @param string|null $phone The phone of the address.
+     * @param string|null $phone The telephone number for the address.
      * @return $this The address.
      */
     public function setPhone(?string $phone): Address
