@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
+use App\Entity\Types\StringArrayType;
 use App\Enums\Rating;
 use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
@@ -58,9 +59,9 @@ class Film
     #[ORM\Column(type: Types::STRING, enumType: Rating::class)]
     private Rating $rating;
 
-//    /** @var string|null The special features are included on the DVD */
-//    #[ORM\Column(name: 'special_features', type: Types::SIMPLE_ARRAY)]
-//    private ?string $specialFeatures = null;
+    /** @var array|null The special features are included on the DVD */
+    #[ORM\Column(name: 'special_features', type: StringArrayType::NAME)]
+    private ?array $specialFeatures = null;
 
     /** @var string|null The film full text */
     #[ORM\Column(name: 'fulltext', type: Types::STRING)]
@@ -270,6 +271,16 @@ class Film
         $this->rating = $rating;
 
         return $this;
+    }
+
+    /**
+     * The special features are included on the DVD.
+     *
+     * @return array|null The special features are included on the DVD.
+     */
+    public function getSpecialFeatures(): ?array
+    {
+        return $this->specialFeatures;
     }
 
     /**
