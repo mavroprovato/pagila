@@ -26,7 +26,13 @@ class FilmController extends AbstractController
     #[Route('/', name: 'films_list')]
     public function list(FilmRepository $repository): Response
     {
-        return $this->json($repository->findAll());
+        $results = $repository->createQueryBuilder('film')
+            ->select('film', 'language')
+            ->leftJoin("film.language", "language")
+            ->leftJoin("film.originalLanguage", "originalLanguage")
+            ->getQuery()->getResult();
+
+        return $this->json($results);
     }
 
     /**
