@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250308044508 extends AbstractMigration
+final class Version20250308055149 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -47,6 +47,13 @@ final class Version20250308044508 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN inventory.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(20) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(language_id))');
         $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE rental (rental_id SERIAL NOT NULL, address_id INT DEFAULT NULL, customer_id INT DEFAULT NULL, staff_id INT DEFAULT NULL, rental_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, return_date TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(rental_id))');
+        $this->addSql('CREATE INDEX IDX_1619C27DF5B7AF75 ON rental (address_id)');
+        $this->addSql('CREATE INDEX IDX_1619C27D9395C3F3 ON rental (customer_id)');
+        $this->addSql('CREATE INDEX IDX_1619C27DD4D57CD ON rental (staff_id)');
+        $this->addSql('COMMENT ON COLUMN rental.rental_date IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN rental.return_date IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN rental.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE staff (staff_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, picture VARCHAR(255) DEFAULT NULL, email VARCHAR(50) NOT NULL, active BOOLEAN NOT NULL, username VARCHAR(32) NOT NULL, password VARCHAR(40) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(staff_id))');
         $this->addSql('CREATE INDEX IDX_426EF392F5B7AF75 ON staff (address_id)');
         $this->addSql('CREATE INDEX IDX_426EF392B092A811 ON staff (store_id)');
@@ -78,6 +85,9 @@ final class Version20250308044508 extends AbstractMigration
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2275FE5ADE FOREIGN KEY (original_language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inventory ADD CONSTRAINT FK_B12D4A36567F5183 FOREIGN KEY (film_id) REFERENCES film (film_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inventory ADD CONSTRAINT FK_B12D4A36B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27DF5B7AF75 FOREIGN KEY (address_id) REFERENCES inventory (inventory_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27D9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (customer_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27DD4D57CD FOREIGN KEY (staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE staff ADD CONSTRAINT FK_426EF392F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE staff ADD CONSTRAINT FK_426EF392B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F9272FA9 FOREIGN KEY (manager_staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -96,6 +106,9 @@ final class Version20250308044508 extends AbstractMigration
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2275FE5ADE');
         $this->addSql('ALTER TABLE inventory DROP CONSTRAINT FK_B12D4A36567F5183');
         $this->addSql('ALTER TABLE inventory DROP CONSTRAINT FK_B12D4A36B092A811');
+        $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27DF5B7AF75');
+        $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27D9395C3F3');
+        $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27DD4D57CD');
         $this->addSql('ALTER TABLE staff DROP CONSTRAINT FK_426EF392F5B7AF75');
         $this->addSql('ALTER TABLE staff DROP CONSTRAINT FK_426EF392B092A811');
         $this->addSql('ALTER TABLE store DROP CONSTRAINT FK_FF575877F9272FA9');
@@ -109,6 +122,7 @@ final class Version20250308044508 extends AbstractMigration
         $this->addSql('DROP TABLE film');
         $this->addSql('DROP TABLE inventory');
         $this->addSql('DROP TABLE language');
+        $this->addSql('DROP TABLE rental');
         $this->addSql('DROP TABLE staff');
         $this->addSql('DROP TABLE store');
         $this->addSql('DROP TABLE messenger_messages');
