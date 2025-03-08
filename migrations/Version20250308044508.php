@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250308041022 extends AbstractMigration
+final class Version20250308044508 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -32,6 +32,11 @@ final class Version20250308041022 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN city.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE country (country_id SERIAL NOT NULL, country VARCHAR(50) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(country_id))');
         $this->addSql('COMMENT ON COLUMN country.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE customer (customer_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, email VARCHAR(50) NOT NULL, activebool BOOLEAN NOT NULL, active SMALLINT NOT NULL, create_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(customer_id))');
+        $this->addSql('CREATE INDEX IDX_81398E09F5B7AF75 ON customer (address_id)');
+        $this->addSql('CREATE INDEX IDX_81398E09B092A811 ON customer (store_id)');
+        $this->addSql('COMMENT ON COLUMN customer.create_date IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN customer.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(128) NOT NULL, description TEXT DEFAULT NULL, release_year SMALLINT NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, rating VARCHAR(255) NOT NULL, special_features text[] NOT NULL, fulltext VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
         $this->addSql('CREATE INDEX IDX_8244BE2282F1BAF4 ON film (language_id)');
         $this->addSql('CREATE INDEX IDX_8244BE2275FE5ADE ON film (original_language_id)');
@@ -67,6 +72,8 @@ final class Version20250308041022 extends AbstractMigration
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
         $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F818BAC62AF FOREIGN KEY (city_id) REFERENCES city (city_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE city ADD CONSTRAINT FK_2D5B0234F92F3E70 FOREIGN KEY (country_id) REFERENCES country (country_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2282F1BAF4 FOREIGN KEY (language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2275FE5ADE FOREIGN KEY (original_language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inventory ADD CONSTRAINT FK_B12D4A36567F5183 FOREIGN KEY (film_id) REFERENCES film (film_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -83,6 +90,8 @@ final class Version20250308041022 extends AbstractMigration
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F818BAC62AF');
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
+        $this->addSql('ALTER TABLE customer DROP CONSTRAINT FK_81398E09F5B7AF75');
+        $this->addSql('ALTER TABLE customer DROP CONSTRAINT FK_81398E09B092A811');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2282F1BAF4');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2275FE5ADE');
         $this->addSql('ALTER TABLE inventory DROP CONSTRAINT FK_B12D4A36567F5183');
@@ -96,6 +105,7 @@ final class Version20250308041022 extends AbstractMigration
         $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE city');
         $this->addSql('DROP TABLE country');
+        $this->addSql('DROP TABLE customer');
         $this->addSql('DROP TABLE film');
         $this->addSql('DROP TABLE inventory');
         $this->addSql('DROP TABLE language');
