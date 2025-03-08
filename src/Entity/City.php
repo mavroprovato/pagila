@@ -29,7 +29,7 @@ class City
     /** @var Country|null The country for the city */
     #[ORM\ManyToOne(targetEntity: Country::class)]
     #[ORM\JoinColumn(referencedColumnName: 'country_id')]
-    private ?Country $country;
+    private ?Country $country = null;
 
     /**
      * Return the city internal identifier.

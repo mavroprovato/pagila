@@ -42,10 +42,10 @@ class Address
     #[ORM\Column(length: 20)]
     private ?string $phone = null;
 
-    /** @var City The city for the address */
+    /** @var City|null The city for the address */
     #[ORM\ManyToOne(targetEntity: City::class)]
     #[ORM\JoinColumn(referencedColumnName: 'city_id')]
-    private City $city;
+    private ?City $city = null;
 
     /**
      * Get the address internal identifier.
