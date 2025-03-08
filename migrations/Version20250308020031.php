@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250308004548 extends AbstractMigration
+final class Version20250308020031 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -38,6 +38,9 @@ final class Version20250308004548 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN film.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(20) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(language_id))');
         $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE store (store_id SERIAL NOT NULL, address_id INT DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(store_id))');
+        $this->addSql('CREATE INDEX IDX_FF575877F5B7AF75 ON store (address_id)');
+        $this->addSql('COMMENT ON COLUMN store.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
@@ -57,6 +60,7 @@ final class Version20250308004548 extends AbstractMigration
         $this->addSql('ALTER TABLE city ADD CONSTRAINT FK_2D5B0234F92F3E70 FOREIGN KEY (country_id) REFERENCES country (country_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2282F1BAF4 FOREIGN KEY (language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2275FE5ADE FOREIGN KEY (original_language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -67,6 +71,7 @@ final class Version20250308004548 extends AbstractMigration
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2282F1BAF4');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2275FE5ADE');
+        $this->addSql('ALTER TABLE store DROP CONSTRAINT FK_FF575877F5B7AF75');
         $this->addSql('DROP TABLE actor');
         $this->addSql('DROP TABLE address');
         $this->addSql('DROP TABLE category');
@@ -74,6 +79,7 @@ final class Version20250308004548 extends AbstractMigration
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE film');
         $this->addSql('DROP TABLE language');
+        $this->addSql('DROP TABLE store');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }
