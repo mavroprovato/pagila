@@ -58,6 +58,14 @@ class Film
     #[ORM\Column(type: Types::STRING, enumType: Rating::class)]
     private Rating $rating;
 
+    /** @var string|null The special features are included on the DVD */
+    #[ORM\Column(name: 'special_features', type: Types::SIMPLE_ARRAY)]
+    private ?string $specialFeatures = null;
+
+    /** @var string|null The film full text */
+    #[ORM\Column(name: 'fulltext', type: Types::STRING)]
+    private ?string $fulltext = null;
+
     /** @var Language The language of the film */
     #[ORM\ManyToOne(targetEntity: Language::class)]
     #[ORM\JoinColumn(referencedColumnName: 'language_id')]
