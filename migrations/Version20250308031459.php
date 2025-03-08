@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250308020031 extends AbstractMigration
+final class Version20250308031459 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -38,7 +38,12 @@ final class Version20250308020031 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN film.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(20) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(language_id))');
         $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE store (store_id SERIAL NOT NULL, address_id INT DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(store_id))');
+        $this->addSql('CREATE TABLE staff (staff_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, picture VARCHAR(255) DEFAULT NULL, email VARCHAR(50) NOT NULL, active BOOLEAN NOT NULL, username VARCHAR(32) NOT NULL, password VARCHAR(40) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(staff_id))');
+        $this->addSql('CREATE INDEX IDX_426EF392F5B7AF75 ON staff (address_id)');
+        $this->addSql('CREATE INDEX IDX_426EF392B092A811 ON staff (store_id)');
+        $this->addSql('COMMENT ON COLUMN staff.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE store (store_id SERIAL NOT NULL, manager_staff_id INT DEFAULT NULL, address_id INT DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(store_id))');
+        $this->addSql('CREATE INDEX IDX_FF575877F9272FA9 ON store (manager_staff_id)');
         $this->addSql('CREATE INDEX IDX_FF575877F5B7AF75 ON store (address_id)');
         $this->addSql('COMMENT ON COLUMN store.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
@@ -60,6 +65,9 @@ final class Version20250308020031 extends AbstractMigration
         $this->addSql('ALTER TABLE city ADD CONSTRAINT FK_2D5B0234F92F3E70 FOREIGN KEY (country_id) REFERENCES country (country_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2282F1BAF4 FOREIGN KEY (language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE film ADD CONSTRAINT FK_8244BE2275FE5ADE FOREIGN KEY (original_language_id) REFERENCES language (language_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE staff ADD CONSTRAINT FK_426EF392F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE staff ADD CONSTRAINT FK_426EF392B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F9272FA9 FOREIGN KEY (manager_staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -71,6 +79,9 @@ final class Version20250308020031 extends AbstractMigration
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2282F1BAF4');
         $this->addSql('ALTER TABLE film DROP CONSTRAINT FK_8244BE2275FE5ADE');
+        $this->addSql('ALTER TABLE staff DROP CONSTRAINT FK_426EF392F5B7AF75');
+        $this->addSql('ALTER TABLE staff DROP CONSTRAINT FK_426EF392B092A811');
+        $this->addSql('ALTER TABLE store DROP CONSTRAINT FK_FF575877F9272FA9');
         $this->addSql('ALTER TABLE store DROP CONSTRAINT FK_FF575877F5B7AF75');
         $this->addSql('DROP TABLE actor');
         $this->addSql('DROP TABLE address');
@@ -79,6 +90,7 @@ final class Version20250308020031 extends AbstractMigration
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE film');
         $this->addSql('DROP TABLE language');
+        $this->addSql('DROP TABLE staff');
         $this->addSql('DROP TABLE store');
         $this->addSql('DROP TABLE messenger_messages');
     }

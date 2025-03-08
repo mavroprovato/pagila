@@ -22,6 +22,11 @@ class Store
     #[ORM\Column(name: 'store_id')]
     private ?int $id = null;
 
+    /** @var Staff|null The manager of this store */
+    #[ORM\ManyToOne(targetEntity: Staff::class)]
+    #[ORM\JoinColumn(referencedColumnName: 'staff_id', nullable: true)]
+    private ?Staff $managerStaff = null;
+
     /** @var Address|null The address of this store */
     #[ORM\ManyToOne(targetEntity: Address::class)]
     #[ORM\JoinColumn(referencedColumnName: 'address_id')]
@@ -40,7 +45,7 @@ class Store
     /**
      * Return the address of this store.
      *
-     * @return Address|null The address of this store
+     * @return Address|null The address of this store.
      */
     public function getAddress(): ?Address
     {
