@@ -58,9 +58,9 @@ class Film
     #[ORM\Column(type: Types::STRING, enumType: Rating::class)]
     private Rating $rating;
 
-    /** @var string|null The special features are included on the DVD */
-    #[ORM\Column(name: 'special_features', type: Types::SIMPLE_ARRAY)]
-    private ?string $specialFeatures = null;
+//    /** @var string|null The special features are included on the DVD */
+//    #[ORM\Column(name: 'special_features', type: Types::SIMPLE_ARRAY)]
+//    private ?string $specialFeatures = null;
 
     /** @var string|null The film full text */
     #[ORM\Column(name: 'fulltext', type: Types::STRING)]
@@ -181,9 +181,9 @@ class Film
     /**
      * Get the cost to rent the film for the period specified in rental duration.
      *
-     * @return int|null The cost to rent the film for the period specified in rental duration.
+     * @return string|null The cost to rent the film for the period specified in rental duration.
      */
-    public function getRentalRate(): ?int
+    public function getRentalRate(): ?string
     {
         return $this->rentalRate;
     }
@@ -191,10 +191,10 @@ class Film
     /**
      * Set the cost to rent the film for the period specified in rental duration.
      *
-     * @param int|null $rentalRate The cost to rent the film for the period specified in rental duration.
+     * @param string|null $rentalRate The cost to rent the film for the period specified in rental duration.
      * @return $this The film.
      */
-    public function setRentalRate(?int $rentalRate): Film
+    public function setRentalRate(?string $rentalRate): Film
     {
         $this->rentalRate = $rentalRate;
 
@@ -227,10 +227,10 @@ class Film
     /**
      * Get the amount charged to the customer if the film is not returned or is returned in a damaged state.
      *
-     * @return int|null The amount charged to the customer if the film is not returned or is returned in a damaged
+     * @return string|null The amount charged to the customer if the film is not returned or is returned in a damaged
      * state.
      */
-    public function getReplacementCost(): ?int
+    public function getReplacementCost(): ?string
     {
         return $this->replacementCost;
     }

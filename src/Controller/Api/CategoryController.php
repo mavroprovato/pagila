@@ -32,7 +32,7 @@ class CategoryController extends AbstractController
     /**
      * Return a category.
      *
-     * @param Category $category The categories.
+     * @param Category $category The category.
      * @return Response The response.
      */
     #[Route('/{id}', name: 'categories_read')]
