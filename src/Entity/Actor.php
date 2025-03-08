@@ -23,11 +23,11 @@ class Actor
     private ?int $id = null;
 
     /** @var string|null The actor first name */
-    #[ORM\Column(name: 'first_name', length: 255)]
+    #[ORM\Column(name: 'first_name', length: 45)]
     private ?string $firstName = null;
 
     /** @var string|null The actor last name */
-    #[ORM\Column(name: 'last_name', length: 255)]
+    #[ORM\Column(name: 'last_name', length: 45)]
     private ?string $lastName = null;
 
     /**

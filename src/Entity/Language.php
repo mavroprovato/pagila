@@ -23,7 +23,7 @@ class Language
     private ?int $id = null;
 
     /** @var string|null The English name of the language */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $name = null;
 
     /**

@@ -23,23 +23,23 @@ class Address
     private ?int $id = null;
 
     /** @var string|null The first line of the address */
-    #[ORM\Column]
+    #[ORM\Column(length: 50)]
     private ?string $address = null;
 
     /** @var string|null The second line of the address */
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $address2 = null;
 
     /** @var string|null The district of the address */
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 20)]
     private ?string $district = null;
 
     /** @var string|null The postal code or ZIP code of the address */
-    #[ORM\Column(name: 'postal_code', nullable: true)]
+    #[ORM\Column(name: 'postal_code', length: 10, nullable: true)]
     private ?string $postalCode = null;
 
     /** @var string|null The telephone number for the address */
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 20)]
     private ?string $phone = null;
 
     /** @var City The city for the address */

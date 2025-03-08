@@ -23,7 +23,7 @@ class Category
     private ?int $id = null;
 
     /** @var string|null The category name */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 25)]
     private ?string $name = null;
 
     /**

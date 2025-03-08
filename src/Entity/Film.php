@@ -25,11 +25,11 @@ class Film
     private ?int $id = null;
 
     /** @var string|null The title of the film */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 128)]
     private ?string $title = null;
 
     /** @var string|null The short description or plot summary of the film */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     /** @var int|null The year in which the movie was released */

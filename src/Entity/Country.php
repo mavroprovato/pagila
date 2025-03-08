@@ -23,7 +23,7 @@ class Country
     private ?int $id = null;
 
     /** @var string|null The name of the country */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $country = null;
 
     /**
