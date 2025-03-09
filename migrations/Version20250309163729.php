@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250309162349 extends AbstractMigration
+final class Version20250309163729 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,9 +33,10 @@ final class Version20250309162349 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN city.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE country (country_id SERIAL NOT NULL, country VARCHAR(50) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(country_id))');
         $this->addSql('COMMENT ON COLUMN country.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE customer (customer_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, email VARCHAR(50) NOT NULL, activebool BOOLEAN NOT NULL, active SMALLINT NOT NULL, create_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(customer_id))');
+        $this->addSql('CREATE TABLE customer (customer_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, email VARCHAR(50) NOT NULL, activebool BOOLEAN DEFAULT true NOT NULL, active SMALLINT DEFAULT NULL, create_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(customer_id))');
         $this->addSql('CREATE INDEX IDX_81398E09F5B7AF75 ON customer (address_id)');
         $this->addSql('CREATE INDEX IDX_81398E09B092A811 ON customer (store_id)');
+        $this->addSql('CREATE INDEX idx_customer_last_name ON customer (last_name)');
         $this->addSql('COMMENT ON COLUMN customer.create_date IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('COMMENT ON COLUMN customer.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(128) NOT NULL, description TEXT DEFAULT NULL, release_year SMALLINT NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, rating VARCHAR(255) NOT NULL, special_features text[] NOT NULL, fulltext VARCHAR(255) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');

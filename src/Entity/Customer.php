@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * The customer entity
  */
 #[ORM\Entity]
+#[ORM\Index(name: 'idx_customer_last_name', columns: ['last_name'])]
 class Customer
 {
     use LastUpdate;
@@ -37,11 +38,11 @@ class Customer
     private ?string $email = null;
 
     /** @var bool|null Whether this is an active customer */
-    #[ORM\Column(name: 'activebool', type: Types::BOOLEAN)]
+    #[ORM\Column(name: 'activebool', type: Types::BOOLEAN, options: ['default' => true])]
     private ?bool $activeBool = null;
 
     /** @var int|null Whether this is an active customer */
-    #[ORM\Column(name: 'active', type: Types::SMALLINT)]
+    #[ORM\Column(name: 'active', type: Types::SMALLINT, nullable: true)]
     private ?int $active = null;
 
     /** @var DateTimeImmutable|null The creation date for the customer */
