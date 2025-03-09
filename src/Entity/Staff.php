@@ -31,9 +31,9 @@ class Staff
     #[ORM\Column(name: 'last_name', length: 45)]
     private ?string $lastName = null;
 
-    /** @var string|null A BLOB containing a photograph of the employee */
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $picture = null;
+    /** @var resource|null A BLOB containing a photograph of the employee */
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $picture = null;
 
     /** @var string|null The staff member email address */
     #[ORM\Column(length: 50)]

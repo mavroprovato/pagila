@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250308055149 extends AbstractMigration
+final class Version20250309150759 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -54,7 +54,7 @@ final class Version20250308055149 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN rental.rental_date IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('COMMENT ON COLUMN rental.return_date IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('COMMENT ON COLUMN rental.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE staff (staff_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, picture VARCHAR(255) DEFAULT NULL, email VARCHAR(50) NOT NULL, active BOOLEAN NOT NULL, username VARCHAR(32) NOT NULL, password VARCHAR(40) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(staff_id))');
+        $this->addSql('CREATE TABLE staff (staff_id SERIAL NOT NULL, address_id INT DEFAULT NULL, store_id INT DEFAULT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, picture BYTEA DEFAULT NULL, email VARCHAR(50) NOT NULL, active BOOLEAN NOT NULL, username VARCHAR(32) NOT NULL, password VARCHAR(40) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(staff_id))');
         $this->addSql('CREATE INDEX IDX_426EF392F5B7AF75 ON staff (address_id)');
         $this->addSql('CREATE INDEX IDX_426EF392B092A811 ON staff (store_id)');
         $this->addSql('COMMENT ON COLUMN staff.last_update IS \'(DC2Type:datetimetz_immutable)\'');

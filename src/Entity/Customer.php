@@ -59,7 +59,7 @@ class Customer
     private ?Address $store = null;
 
     /**
-     * Return the store internal identifier.
+     * Return the customer internal identifier.
      *
      * @return int|null The store internal identifier.
      */
@@ -69,9 +69,9 @@ class Customer
     }
 
     /**
-     * Return the staff member address.
+     * Return the customer address.
      *
-     * @return Address|null The staff member address.
+     * @return Address|null The customer address.
      */
     public function getAddress(): ?Address
     {
@@ -79,9 +79,9 @@ class Customer
     }
 
     /**
-     * Set the staff member address.
+     * Set the customer address.
      *
-     * @param Address|null $address The staff member address.
+     * @param Address|null $address The customer address.
      * @return $this The store.
      */
     public function setAddress(?Address $address): Customer
