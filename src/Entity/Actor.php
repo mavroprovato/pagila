@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * The actor entity
  */
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
+#[ORM\Index(name: 'idx_actor_last_name', columns: ['last_name'])]
 class Actor
 {
     use LastUpdate;
