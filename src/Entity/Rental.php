@@ -27,7 +27,7 @@ class Rental
     /** @var Inventory|null item being rented */
     #[ORM\ManyToOne(targetEntity: Inventory::class)]
     #[ORM\JoinColumn(referencedColumnName: 'inventory_id')]
-    private ?Inventory $address = null;
+    private ?Inventory $inventory = null;
 
     /** @var Customer|null The customer renting the item */
     #[ORM\ManyToOne(targetEntity: Customer::class)]
