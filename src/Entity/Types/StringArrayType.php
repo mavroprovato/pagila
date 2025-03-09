@@ -28,8 +28,12 @@ class StringArrayType extends Type
     {
         if ($value) {
             return array_map(
-                function (string $value): string { return substr($value, 1, -1); },
-                explode(',', substr($value, 1, -1))
+                function (string $value): string {
+                    if ($value[0] === '"' && $value[strlen($value) - 1] === '"') {
+                        $value = substr($value, 1, -1);
+                    }
+                    return $value;
+                }, explode(',', substr($value, 1, -1))
             );
         }
 
