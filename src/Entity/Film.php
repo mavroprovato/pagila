@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
 use App\Entity\Types\FullTextType;
+use App\Entity\Types\MpaaRatingType;
 use App\Entity\Types\StringArrayType;
 use App\Entity\Types\YearType;
 use App\Enums\Rating;
@@ -58,7 +59,7 @@ class Film
     private ?string $replacementCost = null;
 
     /** @var Rating The rating assigned to the film */
-    #[ORM\Column(type: Types::STRING, enumType: Rating::class)]
+    #[ORM\Column(type: MpaaRatingType::NAME)]
     private Rating $rating;
 
     /** @var array|null The special features are included on the DVD */

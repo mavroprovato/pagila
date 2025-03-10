@@ -10,6 +10,7 @@ doctrine:
         use_savepoints: true
         types:
             full_text: App\Entity\Types\FullTextType
+            mpaa_rating: App\Entity\Types\MpaaRatingType
             string_array: App\Entity\Types\StringArrayType
             year: App\Entity\Types\YearType
     orm:
