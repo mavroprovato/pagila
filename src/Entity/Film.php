@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
+use App\Entity\Types\FullTextType;
 use App\Entity\Types\StringArrayType;
 use App\Entity\Types\YearType;
 use App\Enums\Rating;
@@ -65,7 +66,7 @@ class Film
     private ?array $specialFeatures = null;
 
     /** @var string|null The film full text */
-    #[ORM\Column(name: 'fulltext', type: Types::STRING)]
+    #[ORM\Column(name: 'fulltext', type: FullTextType::NAME)]
     private ?string $fulltext = null;
 
     /** @var Language|null The language of the film */

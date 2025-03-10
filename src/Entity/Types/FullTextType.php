@@ -8,27 +8,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
 /**
- * Year database type.
+ * Full text database type.
  */
-class YearType extends Type
+class FullTextType extends Type
 {
     /** @var string The type name */
-    const NAME = 'year';
+    const NAME = 'full_text';
 
     /**
      * {@inheritDoc}
      */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return 'year';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?int
-    {
-        return $value === null ? null : (int) $value;
+        return 'tsvector';
     }
 
     /**
