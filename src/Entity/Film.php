@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
 use App\Entity\Types\StringArrayType;
+use App\Entity\Types\YearType;
 use App\Enums\Rating;
 use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
@@ -34,7 +35,7 @@ class Film
     private ?string $description = null;
 
     /** @var int|null The year in which the movie was released */
-    #[ORM\Column(name: 'release_year', type: Types::SMALLINT)]
+    #[ORM\Column(name: 'release_year', type: YearType::NAME)]
     private ?int $releaseYear = null;
 
     /** @var int|null The length of the rental period in days */

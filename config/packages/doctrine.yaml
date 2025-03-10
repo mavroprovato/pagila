@@ -10,6 +10,7 @@ doctrine:
         use_savepoints: true
         types:
             string_array: App\Entity\Types\StringArrayType
+            year: App\Entity\Types\YearType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
