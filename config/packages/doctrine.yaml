@@ -13,6 +13,9 @@ doctrine:
             mpaa_rating: App\Entity\Types\MpaaRatingType
             string_array: App\Entity\Types\StringArrayType
             year: App\Entity\Types\YearType
+        mapping_types:
+            _text: string
+            mpaa_rating: string
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
