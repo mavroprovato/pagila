@@ -75,12 +75,12 @@ class Film
 
     /** @var Language|null The language of the film */
     #[ORM\ManyToOne(targetEntity: Language::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'language_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'language_id', nullable: false)]
     private ?Language $language = null;
 
     /** @var Language|null The original language of the film. Used when a film has been dubbed into a new language */
     #[ORM\ManyToOne(targetEntity: Language::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'language_id', nullable: true)]
+    #[ORM\JoinColumn(referencedColumnName: 'language_id')]
     private ?Language $originalLanguage = null;
 
     /**

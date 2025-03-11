@@ -24,12 +24,12 @@ class Store
 
     /** @var Staff|null The manager of this store */
     #[ORM\ManyToOne(targetEntity: Staff::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'staff_id', nullable: true)]
+    #[ORM\JoinColumn(referencedColumnName: 'staff_id')]
     private ?Staff $managerStaff = null;
 
     /** @var Address|null The address of this store */
     #[ORM\ManyToOne(targetEntity: Address::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'address_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'address_id', nullable: false)]
     private ?Address $address = null;
 
     /**

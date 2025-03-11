@@ -18,12 +18,12 @@ class FilmCategory
     /** @var Film|null The film */
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Film::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'film_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'film_id', nullable: false)]
     private ?Film $film = null;
 
     /** @var Category|null The category */
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'category_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'category_id', nullable: false)]
     private ?Category $category = null;
 }

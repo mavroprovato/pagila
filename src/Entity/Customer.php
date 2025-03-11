@@ -51,12 +51,12 @@ class Customer
 
     /** @var Address|null The customer address */
     #[ORM\ManyToOne(targetEntity: Address::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'address_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'address_id', nullable: false)]
     private ?Address $address = null;
 
     /** @var Address|null The customer store */
     #[ORM\ManyToOne(targetEntity: Store::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'store_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'store_id', nullable: false)]
     private ?Address $store = null;
 
     /**

@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  * The rental entity
  */
 #[ORM\Entity]
+#[ORM\UniqueConstraint(
+    name: 'idx_unq_rental_rental_date_inventory_id_customer_id', columns: ['rental_date', 'inventory_id', 'customer_id']
+)]
 class Rental
 {
     use LastUpdate;
@@ -26,17 +29,17 @@ class Rental
 
     /** @var Inventory|null item being rented */
     #[ORM\ManyToOne(targetEntity: Inventory::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'inventory_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'inventory_id', nullable: false)]
     private ?Inventory $inventory = null;
 
     /** @var Customer|null The customer renting the item */
     #[ORM\ManyToOne(targetEntity: Customer::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'customer_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'customer_id', nullable: false)]
     private ?Customer $customer = null;
 
     /** @var Staff|null The staff member who processed the rental */
     #[ORM\ManyToOne(targetEntity: Staff::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'staff_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'staff_id', nullable: false)]
     private ?Staff $staff = null;
 
     /** @var DateTimeImmutable|null The date and time that the item was rented */

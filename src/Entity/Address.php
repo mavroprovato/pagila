@@ -44,7 +44,7 @@ class Address
 
     /** @var City|null The city for the address */
     #[ORM\ManyToOne(targetEntity: City::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'city_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'city_id', nullable: false)]
     private ?City $city = null;
 
     /**

@@ -18,12 +18,12 @@ class FilmActor
     /** @var Film|null The film */
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Film::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'film_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'film_id', nullable: false)]
     private ?Film $film = null;
 
     /** @var Actor|null The actor */
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Actor::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'actor_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'actor_id', nullable: false)]
     private ?Actor $actor = null;
 }

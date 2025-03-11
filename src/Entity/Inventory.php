@@ -24,12 +24,12 @@ class Inventory
 
     /** @var Film|null The film this item represents */
     #[ORM\ManyToOne(targetEntity: Film::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'film_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'film_id', nullable: false)]
     private ?Film $film = null;
 
     /** @var Store|null The store stocking this item */
     #[ORM\ManyToOne(targetEntity: Store::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'store_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'store_id', nullable: false)]
     private ?Store $store = null;
 
     /**

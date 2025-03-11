@@ -56,12 +56,12 @@ class Staff
 
     /** @var Address|null The staff member address */
     #[ORM\ManyToOne(targetEntity: Address::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'address_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'address_id', nullable: false)]
     private ?Address $address = null;
 
     /** @var Store|null The staff member "home store" */
     #[ORM\ManyToOne(targetEntity: Store::class)]
-    #[ORM\JoinColumn(referencedColumnName: 'store_id')]
+    #[ORM\JoinColumn(referencedColumnName: 'store_id', nullable: false)]
     private ?Store $store = null;
 
     /**
