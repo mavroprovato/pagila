@@ -19,7 +19,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
 #[ORM\Index(name: 'idx_title', columns: ['title'])]
-#[ORM\Index(name: 'film_fulltext_idx', columns: ['fulltext'], options: ['USING GIST'])]
 class Film
 {
     use LastUpdate;
@@ -43,11 +42,11 @@ class Film
     private ?int $releaseYear = null;
 
     /** @var int|null The length of the rental period in days */
-    #[ORM\Column(name: 'rental_duration', type: Types::SMALLINT)]
+    #[ORM\Column(name: 'rental_duration', type: Types::SMALLINT, options: ['default' => 3])]
     private ?int $rentalDuration = null;
 
     /** @var string|null The cost to rent the film for the period specified in rental duration */
-    #[ORM\Column(name: 'rental_rate', type: Types::DECIMAL, precision: 4, scale: 2)]
+    #[ORM\Column(name: 'rental_rate', type: Types::DECIMAL, precision: 4, scale: 2, options: ['default' => '4.99'])]
     private ?string $rentalRate = null;
 
     /** @var int|null The duration of the film in minutes */
@@ -57,11 +56,13 @@ class Film
     /**
      * @var string|null The amount charged to the customer if the film is not returned or is returned in a damaged state
      */
-    #[ORM\Column(name: 'replacement_cost',type: Types::DECIMAL, precision: 5, scale: 2)]
+    #[ORM\Column(
+        name: 'replacement_cost',type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => '19.99']
+    )]
     private ?string $replacementCost = null;
 
     /** @var Rating The rating assigned to the film */
-    #[ORM\Column(type: MpaaRatingType::NAME)]
+    #[ORM\Column(type: MpaaRatingType::NAME, options: ['default' => Rating::G->value])]
     private Rating $rating;
 
     /** @var array|null The special features are included on the DVD */

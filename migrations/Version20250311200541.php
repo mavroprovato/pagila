@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250311191505 extends AbstractMigration
+final class Version20250311200541 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -44,7 +44,7 @@ final class Version20250311191505 extends AbstractMigration
         $this->addSql('CREATE INDEX idx_customer_last_name ON customer (last_name)');
         $this->addSql('COMMENT ON COLUMN customer.create_date IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('COMMENT ON COLUMN customer.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(128) NOT NULL, description TEXT DEFAULT NULL, release_year year NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, rating mpaa_rating NOT NULL, special_features text[] NOT NULL, fulltext tsvector NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
+        $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(128) NOT NULL, description TEXT DEFAULT NULL, release_year year NOT NULL, rental_duration SMALLINT DEFAULT 3 NOT NULL, rental_rate NUMERIC(4, 2) DEFAULT \'4.99\' NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) DEFAULT \'19.99\' NOT NULL, rating mpaa_rating DEFAULT \'G\' NOT NULL, special_features text[] NOT NULL, fulltext tsvector NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
         $this->addSql('CREATE INDEX IDX_8244BE2282F1BAF4 ON film (language_id)');
         $this->addSql('CREATE INDEX IDX_8244BE2275FE5ADE ON film (original_language_id)');
         $this->addSql('CREATE INDEX idx_title ON film (title)');
@@ -124,7 +124,8 @@ final class Version20250311191505 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        $this->downFullText();
+
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F818BAC62AF');
         $this->addSql('ALTER TABLE city DROP CONSTRAINT FK_2D5B0234F92F3E70');
@@ -160,6 +161,12 @@ final class Version20250311191505 extends AbstractMigration
         $this->addSql('DROP TABLE staff');
         $this->addSql('DROP TABLE store');
         $this->addSql('DROP TABLE messenger_messages');
+    }
+
+    private function downFullText(): void
+    {
+        $this->addSql('DROP INDEX film_fulltext_idx');
+        $this->addSql("DROP TRIGGER film_fulltext_trigger");
     }
 
     public function postDown(Schema $schema): void
