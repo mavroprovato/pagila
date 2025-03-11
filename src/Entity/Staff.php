@@ -6,13 +6,14 @@ namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
 use App\Repository\CategoryRepository;
+use App\Repository\StoreRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * The staff entity
  */
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: StaffRepository::class)]
 class Staff
 {
     use LastUpdate;
@@ -72,6 +73,121 @@ class Staff
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Get the first name of the staff member.
+     *
+     * @return string|null The first name of the staff member.
+     */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set the first name of the staff member.
+     *
+     * @param string|null $firstName The first name of the staff member.
+     * @return $this The staff.
+     */
+    public function setFirstName(?string $firstName): Staff
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get the last name of the staff member.
+     *
+     * @return string|null The last name of the staff member.
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the last name of the staff member.
+     *
+     * @param string|null $lastName The last name of the staff member.
+     * @return $this The staff.
+     */
+    public function setLastName(?string $lastName): Staff
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Return the staff member email address.
+     *
+     * @return string|null The staff member email address.
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the staff member email address.
+     *
+     * @param string|null $email The staff member email address.
+     * @return $this The staff.
+     */
+    public function setEmail(?string $email): Staff
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Whether this is an active employee.
+     *
+     * @return bool|null Whether this is an active employee.
+     */
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set whether this is an active employee.
+     *
+     * @param bool|null $active Whether this is an active employee.
+     * @return $this The staff.
+     */
+    public function setActive(?bool $active): Staff
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * The username used by the staff member to access the rental system.
+     *
+     * @return string|null The username used by the staff member to access the rental system.
+     */
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set the username used by the staff member to access the rental system.
+     *
+     * @param string|null $username The username used by the staff member to access the rental system.
+     * @return $this The staff.
+     */
+    public function setUsername(?string $username): Staff
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**

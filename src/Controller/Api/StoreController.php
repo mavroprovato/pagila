@@ -20,7 +20,7 @@ class StoreController extends AbstractController
     /**
      * List stores.
      *
-     * @param StoreRepository $repository The language repository.
+     * @param StoreRepository $repository The store repository.
      * @return Response The response.
      */
     #[Route('/', name: 'stores_list')]
@@ -37,7 +37,7 @@ class StoreController extends AbstractController
     }
 
     /**
-     * Return a language.
+     * Return a store.
      *
      * @param Store $store The store.
      * @return Response The response.
