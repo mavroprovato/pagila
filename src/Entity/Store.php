@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
-use App\Repository\CategoryRepository;
+use App\Repository\StoreRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * The store entity
  */
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: StoreRepository::class)]
 class Store
 {
     use LastUpdate;

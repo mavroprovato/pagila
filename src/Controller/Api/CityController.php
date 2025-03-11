@@ -28,7 +28,7 @@ class CityController extends AbstractController
     {
         $results = $repository->createQueryBuilder('city')
             ->select('city', 'country')
-            ->leftJoin("city.country", "country")
+            ->leftJoin('city.country', 'country')
             ->getQuery()->getResult();
 
         return $this->json($results);
