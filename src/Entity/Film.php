@@ -18,6 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
  * The film entity
  */
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
+#[ORM\Index(name: 'idx_title', columns: ['title'])]
+#[ORM\Index(name: 'film_fulltext_idx', columns: ['fulltext'], options: ['USING GIST'])]
 class Film
 {
     use LastUpdate;

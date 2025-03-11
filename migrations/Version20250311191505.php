@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250310213833 extends AbstractMigration
+final class Version20250311191505 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,6 @@ final class Version20250310213833 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE actor (actor_id SERIAL NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(actor_id))');
         $this->addSql('CREATE INDEX idx_actor_last_name ON actor (last_name)');
         $this->addSql('COMMENT ON COLUMN actor.last_update IS \'(DC2Type:datetimetz_immutable)\'');
@@ -48,6 +47,7 @@ final class Version20250310213833 extends AbstractMigration
         $this->addSql('CREATE TABLE film (film_id SERIAL NOT NULL, language_id INT DEFAULT NULL, original_language_id INT DEFAULT NULL, title VARCHAR(128) NOT NULL, description TEXT DEFAULT NULL, release_year year NOT NULL, rental_duration SMALLINT NOT NULL, rental_rate NUMERIC(4, 2) NOT NULL, length SMALLINT DEFAULT NULL, replacement_cost NUMERIC(5, 2) NOT NULL, rating mpaa_rating NOT NULL, special_features text[] NOT NULL, fulltext tsvector NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id))');
         $this->addSql('CREATE INDEX IDX_8244BE2282F1BAF4 ON film (language_id)');
         $this->addSql('CREATE INDEX IDX_8244BE2275FE5ADE ON film (original_language_id)');
+        $this->addSql('CREATE INDEX idx_title ON film (title)');
         $this->addSql('COMMENT ON COLUMN film.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE film_actor (film_id INT NOT NULL, actor_id INT NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(film_id, actor_id))');
         $this->addSql('CREATE INDEX IDX_DD19A8A9567F5183 ON film_actor (film_id)');
@@ -112,6 +112,14 @@ final class Version20250310213833 extends AbstractMigration
         $this->addSql('ALTER TABLE staff ADD CONSTRAINT FK_426EF392B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F9272FA9 FOREIGN KEY (manager_staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+
+        $this->upFullText();
+    }
+
+    private function upFullText(): void
+    {
+        $this->addSql('CREATE INDEX film_fulltext_idx ON film USING GIST (fulltext)');
+        $this->addSql("CREATE TRIGGER film_fulltext_trigger BEFORE INSERT OR UPDATE ON public.film FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('fulltext', 'pg_catalog.english', 'title', 'description');");
     }
 
     public function down(Schema $schema): void
@@ -152,5 +160,11 @@ final class Version20250310213833 extends AbstractMigration
         $this->addSql('DROP TABLE staff');
         $this->addSql('DROP TABLE store');
         $this->addSql('DROP TABLE messenger_messages');
+    }
+
+    public function postDown(Schema $schema): void
+    {
+        $this->addSql("DROP TYPE mpaa_rating");
+        $this->addSql('DROP DOMAIN year');
     }
 }
