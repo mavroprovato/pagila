@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
-use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +26,7 @@ class Rental
     #[ORM\Column(name: 'rental_id')]
     private ?int $id = null;
 
-    /** @var Inventory|null item being rented */
+    /** @var Inventory|null The item being rented */
     #[ORM\ManyToOne(targetEntity: Inventory::class)]
     #[ORM\JoinColumn(referencedColumnName: 'inventory_id', nullable: false)]
     private ?Inventory $inventory = null;

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250311212741 extends AbstractMigration
+final class Version20250311215822 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -63,6 +63,11 @@ final class Version20250311212741 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN inventory.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(20) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL, PRIMARY KEY(language_id))');
         $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
+        $this->addSql('CREATE TABLE payment (payment_id SERIAL NOT NULL, customer_id INT NOT NULL, staff_id INT NOT NULL, rental_id INT NOT NULL, amount NUMERIC(5, 2) NOT NULL, payment_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(payment_id))');
+        $this->addSql('CREATE INDEX IDX_6D28840D9395C3F3 ON payment (customer_id)');
+        $this->addSql('CREATE INDEX IDX_6D28840DD4D57CD ON payment (staff_id)');
+        $this->addSql('CREATE INDEX IDX_6D28840DA7CF2329 ON payment (rental_id)');
+        $this->addSql('COMMENT ON COLUMN payment.payment_date IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE rental (rental_id SERIAL NOT NULL, inventory_id INT NOT NULL, customer_id INT NOT NULL, staff_id INT NOT NULL, rental_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, return_date TIMESTAMP(0) WITH TIME ZONE DEFAULT NULL, last_update TIMESTAMP(0) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL, PRIMARY KEY(rental_id))');
         $this->addSql('CREATE INDEX IDX_1619C27D9EEA759 ON rental (inventory_id)');
         $this->addSql('CREATE INDEX IDX_1619C27D9395C3F3 ON rental (customer_id)');
@@ -106,6 +111,9 @@ final class Version20250311212741 extends AbstractMigration
         $this->addSql('ALTER TABLE film_category ADD CONSTRAINT FK_A4CBD6A812469DE2 FOREIGN KEY (category_id) REFERENCES category (category_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inventory ADD CONSTRAINT FK_B12D4A36567F5183 FOREIGN KEY (film_id) REFERENCES film (film_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inventory ADD CONSTRAINT FK_B12D4A36B092A811 FOREIGN KEY (store_id) REFERENCES store (store_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE payment ADD CONSTRAINT FK_6D28840D9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (customer_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE payment ADD CONSTRAINT FK_6D28840DD4D57CD FOREIGN KEY (staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE payment ADD CONSTRAINT FK_6D28840DA7CF2329 FOREIGN KEY (rental_id) REFERENCES rental (rental_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27D9EEA759 FOREIGN KEY (inventory_id) REFERENCES inventory (inventory_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27D9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (customer_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE rental ADD CONSTRAINT FK_1619C27DD4D57CD FOREIGN KEY (staff_id) REFERENCES staff (staff_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -140,6 +148,9 @@ final class Version20250311212741 extends AbstractMigration
         $this->addSql('ALTER TABLE film_category DROP CONSTRAINT FK_A4CBD6A812469DE2');
         $this->addSql('ALTER TABLE inventory DROP CONSTRAINT FK_B12D4A36567F5183');
         $this->addSql('ALTER TABLE inventory DROP CONSTRAINT FK_B12D4A36B092A811');
+        $this->addSql('ALTER TABLE payment DROP CONSTRAINT FK_6D28840D9395C3F3');
+        $this->addSql('ALTER TABLE payment DROP CONSTRAINT FK_6D28840DD4D57CD');
+        $this->addSql('ALTER TABLE payment DROP CONSTRAINT FK_6D28840DA7CF2329');
         $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27D9EEA759');
         $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27D9395C3F3');
         $this->addSql('ALTER TABLE rental DROP CONSTRAINT FK_1619C27DD4D57CD');
@@ -158,6 +169,7 @@ final class Version20250311212741 extends AbstractMigration
         $this->addSql('DROP TABLE film_category');
         $this->addSql('DROP TABLE inventory');
         $this->addSql('DROP TABLE language');
+        $this->addSql('DROP TABLE payment');
         $this->addSql('DROP TABLE rental');
         $this->addSql('DROP TABLE staff');
         $this->addSql('DROP TABLE store');
