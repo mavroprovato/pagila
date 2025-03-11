@@ -27,9 +27,9 @@ class FilmController extends AbstractController
     public function list(FilmRepository $repository): Response
     {
         $results = $repository->createQueryBuilder('film')
-            ->select('film', 'language')
-            ->leftJoin("film.language", "language")
-            ->leftJoin("film.originalLanguage", "originalLanguage")
+            ->select('film', 'language', 'originalLanguage')
+            ->leftJoin('film.language', 'language')
+            ->leftJoin('film.originalLanguage', 'originalLanguage')
             ->getQuery()->getResult();
 
         return $this->json($results);
