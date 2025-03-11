@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250311215822 extends AbstractMigration
+final class Version20250311222227 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -63,7 +63,7 @@ final class Version20250311215822 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN inventory.last_update IS \'(DC2Type:datetimetz_immutable)\'');
         $this->addSql('CREATE TABLE language (language_id SERIAL NOT NULL, name VARCHAR(20) NOT NULL, last_update TIMESTAMP(0) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL, PRIMARY KEY(language_id))');
         $this->addSql('COMMENT ON COLUMN language.last_update IS \'(DC2Type:datetimetz_immutable)\'');
-        $this->addSql('CREATE TABLE payment (payment_id SERIAL NOT NULL, customer_id INT NOT NULL, staff_id INT NOT NULL, rental_id INT NOT NULL, amount NUMERIC(5, 2) NOT NULL, payment_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, PRIMARY KEY(payment_id))');
+        $this->addSql('CREATE TABLE payment (payment_id INT NOT NULL, payment_date TIMESTAMP(0) WITH TIME ZONE NOT NULL, customer_id INT NOT NULL, staff_id INT NOT NULL, rental_id INT NOT NULL, amount NUMERIC(5, 2) NOT NULL, PRIMARY KEY(payment_id, payment_date)) PARTITION BY RANGE (payment_date)');
         $this->addSql('CREATE INDEX IDX_6D28840D9395C3F3 ON payment (customer_id)');
         $this->addSql('CREATE INDEX IDX_6D28840DD4D57CD ON payment (staff_id)');
         $this->addSql('CREATE INDEX IDX_6D28840DA7CF2329 ON payment (rental_id)');
@@ -123,12 +123,24 @@ final class Version20250311215822 extends AbstractMigration
         $this->addSql('ALTER TABLE store ADD CONSTRAINT FK_FF575877F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (address_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
         $this->upFullText();
+        $this->createPartitions();
     }
 
     private function upFullText(): void
     {
         $this->addSql('CREATE INDEX film_fulltext_idx ON film USING GIST (fulltext)');
         $this->addSql("CREATE TRIGGER film_fulltext_trigger BEFORE INSERT OR UPDATE ON public.film FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('fulltext', 'pg_catalog.english', 'title', 'description');");
+    }
+
+    private function createPartitions()
+    {
+        $this->addSql("CREATE TABLE payment_p2022_01 PARTITION OF payment FOR VALUES FROM ('2022-01-01 00:00:00+00') TO ('2022-02-01 00:00:00+00')");
+        $this->addSql("CREATE TABLE payment_p2022_02 PARTITION OF payment FOR VALUES FROM ('2022-02-01 00:00:00+00') TO ('2022-03-01 00:00:00+00')");
+        $this->addSql("CREATE TABLE payment_p2022_03 PARTITION OF payment FOR VALUES FROM ('2022-03-01 00:00:00+00') TO ('2022-04-01 01:00:00+01')");
+        $this->addSql("CREATE TABLE payment_p2022_04 PARTITION OF payment FOR VALUES FROM ('2022-04-01 01:00:00+01') TO ('2022-05-01 01:00:00+01')");
+        $this->addSql("CREATE TABLE payment_p2022_05 PARTITION OF payment FOR VALUES FROM ('2022-05-01 01:00:00+01') TO ('2022-06-01 01:00:00+01')");
+        $this->addSql("CREATE TABLE payment_p2022_06 PARTITION OF payment FOR VALUES FROM ('2022-06-01 01:00:00+01') TO ('2022-07-01 01:00:00+01')");
+        $this->addSql("CREATE TABLE payment_p2022_07 PARTITION OF payment FOR VALUES FROM ('2022-07-01 01:00:00+01') TO ('2022-08-01 01:00:00+01')");
     }
 
     public function down(Schema $schema): void

@@ -16,7 +16,6 @@ class Payment
 {
     /** @var int|null The payment internal identifier */
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column(name: 'payment_id')]
     private ?int $id = null;
 
@@ -43,6 +42,7 @@ class Payment
     private ?string $amount = null;
 
     /** @var DateTimeImmutable|null The date the payment was processed */
+    #[ORM\Id]
     #[ORM\Column(name: 'payment_date', type: Types::DATETIMETZ_IMMUTABLE)]
     private ?DateTimeImmutable $paymentDate = null;
 
