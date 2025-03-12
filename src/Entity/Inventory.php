@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
-use App\Repository\CountryRepository;
+use App\Repository\InventoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * The inventory entity
  */
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: InventoryRepository::class)]
 class Inventory
 {
     use LastUpdate;
@@ -40,5 +40,15 @@ class Inventory
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFilm(): ?Film
+    {
+        return $this->film;
+    }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
     }
 }
