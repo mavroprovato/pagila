@@ -54,10 +54,10 @@ class Customer
     #[ORM\JoinColumn(referencedColumnName: 'address_id', nullable: false)]
     private ?Address $address = null;
 
-    /** @var Address|null The customer store */
+    /** @var Store|null The customer store */
     #[ORM\ManyToOne(targetEntity: Store::class)]
     #[ORM\JoinColumn(referencedColumnName: 'store_id', nullable: false)]
-    private ?Address $store = null;
+    private ?Store $store = null;
 
     /**
      * Return the customer internal identifier.

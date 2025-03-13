@@ -42,11 +42,21 @@ class Inventory
         return $this->id;
     }
 
+    /**
+     * Return film this item represents.
+     *
+     * @return Film|null The film this item represents.
+     */
     public function getFilm(): ?Film
     {
         return $this->film;
     }
 
+    /**
+     * Return the store stocking this item.
+     *
+     * @return Store|null The store stocking this item.
+     */
     public function getStore(): ?Store
     {
         return $this->store;

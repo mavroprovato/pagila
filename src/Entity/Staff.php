@@ -211,4 +211,26 @@ class Staff
 
         return $this;
     }
+
+    /**
+     * Return a BLOB containing a photograph of the employee.
+     *
+     * @return resource|null A BLOB containing a photograph of the employee.
+     */
+    public function getPicture(): null
+    {
+        return $this->picture;
+    }
+
+    /**
+     * Return the password used by the staff member to access the rental system. The password should be stored
+     * as a hash using the SHA2() function.
+     *
+     * @return string|null The password used by the staff member to access the rental system. The password should be
+     * stored as a hash using the SHA2() function.
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
 }

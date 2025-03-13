@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
+use App\Repository\RentalRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * The rental entity
  */
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: RentalRepository::class)]
 #[ORM\UniqueConstraint(
     name: 'idx_unq_rental_rental_date_inventory_id_customer_id', columns: ['rental_date', 'inventory_id', 'customer_id']
 )]
@@ -57,5 +58,55 @@ class Rental
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Return the item being rented.
+     *
+     * @return Inventory|null The item being rented
+     */
+    public function getInventory(): ?Inventory
+    {
+        return $this->inventory;
+    }
+
+    /**
+     * Return the customer renting the item.
+     *
+     * @return Customer|null The customer renting the item
+     */
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Return the staff member who processed the rental.
+     *
+     * @return Staff|null The staff member who processed the rental.
+     */
+    public function getStaff(): ?Staff
+    {
+        return $this->staff;
+    }
+
+    /**
+     * Return the date and time that the item was rented.
+     *
+     * @return DateTimeImmutable|null The date and time that the item was rented.
+     */
+    public function getRentalDate(): ?DateTimeImmutable
+    {
+        return $this->rentalDate;
+    }
+
+    /**
+     * Return The date and time the item was returned.
+     *
+     * @return DateTimeImmutable|null The date and time the item was returned.
+     */
+    public function getReturnDate(): ?DateTimeImmutable
+    {
+        return $this->returnDate;
     }
 }

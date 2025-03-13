@@ -65,12 +65,12 @@ class Film
     #[ORM\Column(type: MpaaRatingType::NAME, options: ['default' => Rating::G->value])]
     private Rating $rating;
 
-    /** @var array|null The special features are included on the DVD */
+    /** @var array|null The special features that are included on the DVD */
     #[ORM\Column(name: 'special_features', type: StringArrayType::NAME)]
     private ?array $specialFeatures = null;
 
     /** @var string|null The film full text */
-    #[ORM\Column(name: 'fulltext', type: FullTextType::NAME)]
+    #[ORM\Column(name: 'fulltext', type: FullTextType::NAME, insertable: false, updatable: false)]
     private ?string $fulltext = null;
 
     /** @var Language|null The language of the film */
@@ -280,9 +280,9 @@ class Film
     }
 
     /**
-     * The special features are included on the DVD.
+     * Return the special features that are included on the DVD.
      *
-     * @return array|null The special features are included on the DVD.
+     * @return array|null The special features that are included on the DVD.
      */
     public function getSpecialFeatures(): ?array
     {
@@ -290,7 +290,17 @@ class Film
     }
 
     /**
-     * Get The language of the film.
+     * Return the film fulltext.
+     *
+     * @return string|null The film fulltext.
+     */
+    public function getFulltext(): ?string
+    {
+        return $this->fulltext;
+    }
+
+    /**
+     * Get the language of the film.
      *
      * @return Language|null The language of the film.
      */
