@@ -27,10 +27,17 @@ class StoreController extends AbstractController
     public function list(StoreRepository $repository): Response
     {
         $results = $repository->createQueryBuilder('store')
-            ->select('store', 'address', 'city', 'country')
-            ->leftJoin('store.address', 'address')
-            ->leftJoin('address.city', 'city')
-            ->leftJoin('city.country', 'country')
+            ->select(
+                'store', 'storeAddress', 'storeCity', 'storeCountry', 'managerStaff', 'managerStaffAddress',
+                'managerStaffCity', 'managerStaffCountry'
+            )
+            ->leftJoin('store.address', 'storeAddress')
+            ->leftJoin('storeAddress.city', 'storeCity')
+            ->leftJoin('storeCity.country', 'storeCountry')
+            ->leftJoin('store.managerStaff', 'managerStaff')
+            ->leftJoin('managerStaff.address', 'managerStaffAddress')
+            ->leftJoin('managerStaffAddress.city', 'managerStaffCity')
+            ->leftJoin('managerStaffCity.country', 'managerStaffCountry')
             ->getQuery()->getResult();
 
         return $this->json($results);
