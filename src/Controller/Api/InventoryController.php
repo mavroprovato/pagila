@@ -28,14 +28,24 @@ class InventoryController extends AbstractController
     public function list(InventoryRepository $repository): Response
     {
         $results = $repository->createQueryBuilder('inventory')
-            ->select('inventory', 'film', 'store', 'language', 'originalLanguage', 'address', 'city', 'country')
-            ->leftJoin('inventory.film', 'film')
-            ->leftJoin('film.language', 'language')
-            ->leftJoin('film.originalLanguage', 'originalLanguage')
-            ->leftJoin('inventory.store', 'store')
-            ->leftJoin('store.address', 'address')
-            ->leftJoin('address.city', 'city')
-            ->leftJoin('city.country', 'country')
+            ->select(
+                'inventory', 'inventoryFilm', 'inventoryFilmLanguage', 'inventoryFilmOriginalLanguage',
+                'inventoryStore', 'inventoryStoreAddress', 'inventoryStoreAddressCity', 'inventoryStoreAddressCountry',
+                'inventoryStoreManagerStaff', 'inventoryStoreManagerStaffAddress', 'inventoryStoreManagerStaffCity',
+                'inventoryStoreManagerStaffCountry'
+            )
+            ->leftJoin('inventory.film', 'inventoryFilm')
+            ->leftJoin('inventoryFilm.language', 'inventoryFilmLanguage')
+            ->leftJoin('inventoryFilm.originalLanguage', 'inventoryFilmOriginalLanguage')
+            ->leftJoin('inventory.store', 'inventoryStore')
+            ->leftJoin('inventoryStore.address', 'inventoryStoreAddress')
+            ->leftJoin('inventoryStoreAddress.city', 'inventoryStoreAddressCity')
+            ->leftJoin('inventoryStoreAddressCity.country', 'inventoryStoreAddressCountry')
+            ->leftJoin('inventoryStore.managerStaff', 'inventoryStoreManagerStaff')
+            ->leftJoin('inventoryStoreManagerStaff.address', 'inventoryStoreManagerStaffAddress')
+            ->leftJoin('inventoryStoreManagerStaffAddress.city', 'inventoryStoreManagerStaffCity')
+            ->leftJoin('inventoryStoreManagerStaffCity.country', 'inventoryStoreManagerStaffCountry')
+            ->setMaxResults(1000)
             ->getQuery()->getResult();
 
         return $this->json($results);
