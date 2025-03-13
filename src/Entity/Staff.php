@@ -8,6 +8,7 @@ use App\Entity\Traits\LastUpdate;
 use App\Repository\StaffRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * The staff entity
@@ -52,6 +53,7 @@ class Staff
      * as a hash using the SHA2() function
      */
     #[ORM\Column(length: 40)]
+    #[Ignore]
     private ?string $password = null;
 
     /** @var Address|null The staff member address */
@@ -232,5 +234,10 @@ class Staff
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
     }
 }

@@ -13,6 +13,7 @@ use App\Enums\Rating;
 use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * The film entity
@@ -71,6 +72,7 @@ class Film
 
     /** @var string|null The film full text */
     #[ORM\Column(name: 'fulltext', type: FullTextType::NAME, insertable: false, updatable: false)]
+    #[Ignore]
     private ?string $fulltext = null;
 
     /** @var Language|null The language of the film */

@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\LastUpdate;
 use App\Repository\StoreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * The store entity
@@ -25,6 +26,7 @@ class Store
     /** @var Staff|null The manager of this store */
     #[ORM\ManyToOne(targetEntity: Staff::class)]
     #[ORM\JoinColumn(referencedColumnName: 'staff_id')]
+    #[Ignore]
     private ?Staff $managerStaff = null;
 
     /** @var Address|null The address of this store */
