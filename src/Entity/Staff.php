@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\LastUpdate;
-use App\Repository\CategoryRepository;
-use App\Repository\StoreRepository;
+use App\Repository\StaffRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

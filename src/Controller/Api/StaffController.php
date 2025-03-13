@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Staff;
-use App\Entity\Store;
 use App\Repository\StaffRepository;
-use App\Repository\StoreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
