@@ -34,6 +34,7 @@ class Staff
 
     /** @var resource|null A BLOB containing a photograph of the employee */
     #[ORM\Column(type: Types::BLOB, nullable: true)]
+    #[Ignore]
     private $picture = null;
 
     /** @var string|null The staff member email address */
@@ -236,6 +237,11 @@ class Staff
         return $this->password;
     }
 
+    /**
+     * Get the staff member "home store".
+     *
+     * @return Store|null The staff member "home store"
+     */
     public function getStore(): ?Store
     {
         return $this->store;

@@ -55,16 +55,6 @@ class Store
     }
 
     /**
-     * Return the manager of this store.
-     *
-     * @return Staff|null The manager of this store.
-     */
-    public function getManagerStaff(): ?Staff
-    {
-        return $this->managerStaff;
-    }
-
-    /**
      * Set the address of this store.
      *
      * @param Address|null $address The address of this store.
@@ -75,5 +65,15 @@ class Store
         $this->address = $address;
 
         return $this;
+    }
+
+    /**
+     * Return the manager of this store.
+     *
+     * @return Staff|null The manager of this store.
+     */
+    public function getManagerStaff(): ?Staff
+    {
+        return $this->managerStaff;
     }
 }
