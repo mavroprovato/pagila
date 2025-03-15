@@ -26,7 +26,15 @@ class CountryController extends AbstractController
     #[Route('/', name: 'countries_list')]
     public function list(CountryRepository $repository): Response
     {
-        return $this->json($repository->findAll());
+        $queryBuilder = $repository->createQueryBuilder('country');
+        $results = $queryBuilder->select('country')
+            ->orderBy('country.id')->setMaxResults(100)
+            ->getQuery()->getResult();
+        $queryBuilder = $repository->createQueryBuilder('country');
+        $total = $queryBuilder->select('COUNT(country.id)')
+            ->getQuery()->getSingleScalarResult();
+
+        return $this->json(['results' => $results, 'total' => $total]);
     }
 
     /**
