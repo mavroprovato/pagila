@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Country;
+use App\Model\PaginatedResponse;
 use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ class CountryController extends AbstractController
         $total = $queryBuilder->select('COUNT(country.id)')
             ->getQuery()->getSingleScalarResult();
 
-        return $this->json(['results' => $results, 'total' => $total]);
+        return $this->json(new PaginatedResponse($results, $total));
     }
 
     /**
