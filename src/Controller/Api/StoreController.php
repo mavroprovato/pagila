@@ -5,42 +5,36 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Store;
-use App\Repository\StoreRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * The store controller
  */
 #[Route('/api/stores')]
-class StoreController extends AbstractController
+class StoreController extends BaseController
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass(): string
+    {
+        return Store::class;
+    }
 
     /**
      * List stores.
      *
-     * @param StoreRepository $repository The store repository.
+     * @param int $page The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
      */
     #[Route('/', name: 'stores_list')]
-    public function list(StoreRepository $repository): Response
+    public function list(#[MapQueryParameter] int $page = 1, #[MapQueryParameter] int $perPage = 100): Response
     {
-        $results = $repository->createQueryBuilder('store')
-            ->select(
-                'store', 'storeAddress', 'storeCity', 'storeCountry', 'managerStaff', 'managerStaffAddress',
-                'managerStaffCity', 'managerStaffCountry'
-            )
-            ->leftJoin('store.address', 'storeAddress')
-            ->leftJoin('storeAddress.city', 'storeCity')
-            ->leftJoin('storeCity.country', 'storeCountry')
-            ->leftJoin('store.managerStaff', 'managerStaff')
-            ->leftJoin('managerStaff.address', 'managerStaffAddress')
-            ->leftJoin('managerStaffAddress.city', 'managerStaffCity')
-            ->leftJoin('managerStaffCity.country', 'managerStaffCountry')
-            ->getQuery()->getResult();
-
-        return $this->json($results);
+        return parent::list($page, $perPage);
     }
 
     /**
@@ -53,5 +47,13 @@ class StoreController extends AbstractController
     public function show(Store $store): Response
     {
         return $this->json($store);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRelated(): array
+    {
+        return ['address'];
     }
 }
