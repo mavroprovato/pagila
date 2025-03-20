@@ -60,16 +60,6 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * Return the alias for the entity.
-     *
-     * @return string The alias for the entity.
-     */
-    protected function getEntityAlias(): string
-    {
-        return lcfirst(substr($this->getEntityClass(), strrpos($this->getEntityClass(), "\\") + 1));
-    }
-
-    /**
      * Return the related entities to fetch.
      *
      * @return string[] A string array of the related entities to fetch.
@@ -77,6 +67,16 @@ abstract class BaseController extends AbstractController
     protected function getRelated(): array
     {
         return [];
+    }
+
+    /**
+     * Return the alias for the entity.
+     *
+     * @return string The alias for the entity.
+     */
+    private function getEntityAlias(): string
+    {
+        return lcfirst(substr($this->getEntityClass(), strrpos($this->getEntityClass(), "\\") + 1));
     }
 
     /**

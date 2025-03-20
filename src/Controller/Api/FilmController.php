@@ -5,34 +5,36 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Film;
-use App\Repository\FilmRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * The film controller
  */
 #[Route('/api/films')]
-class FilmController extends AbstractController
+class FilmController extends BaseController
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass(): string
+    {
+        return Film::class;
+    }
 
     /**
      * List films.
      *
-     * @param FilmRepository $repository The film repository.
+     * @param int $page The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
      */
     #[Route('/', name: 'films_list')]
-    public function list(FilmRepository $repository): Response
+    public function list(#[MapQueryParameter] int $page = 1, #[MapQueryParameter] int $perPage = 100): Response
     {
-        $results = $repository->createQueryBuilder('film')
-            ->select('film', 'language', 'originalLanguage')
-            ->leftJoin('film.language', 'language')
-            ->leftJoin('film.originalLanguage', 'originalLanguage')
-            ->getQuery()->getResult();
-
-        return $this->json($results);
+        return parent::list($page, $perPage);
     }
 
     /**
@@ -45,5 +47,13 @@ class FilmController extends AbstractController
     public function show(Film $film): Response
     {
         return $this->json($film);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRelated(): array
+    {
+        return ['language', 'originalLanguage'];
     }
 }
