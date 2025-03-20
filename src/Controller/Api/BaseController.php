@@ -45,6 +45,7 @@ abstract class BaseController extends AbstractController
     public function list(int $page = 1, int $perPage = 100): Response
     {
         $alias = $this->getEntityAlias();
+
         // Get the paginated results
         $firstResult = ($page - 1) * $perPage;
         $queryBuilder = $this->getQueryBuilder();
