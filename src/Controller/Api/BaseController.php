@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class BaseController extends AbstractController
 {
     /** @var EntityManagerInterface The entity manager */
-    private EntityManagerInterface $entityManager;
+    protected EntityManagerInterface $entityManager;
 
     /**
      * Create the controller.
@@ -37,6 +37,8 @@ abstract class BaseController extends AbstractController
     /**
      * List entities.
      *
+     * @param int $page The page to fetch.
+     * @param int $perPage The page to fetch.
      * @return Response The response.
      */
     public function list(int $page = 1, int $perPage = 100): Response
@@ -47,20 +49,39 @@ abstract class BaseController extends AbstractController
         // Get the paginated results
         $firstResult = ($page - 1) * $perPage;
         $queryBuilder = $repository->createQueryBuilder($alias);
-        $results = $queryBuilder->select($alias)
-            ->orderBy("$alias.id")->setFirstResult($firstResult)->setMaxResults($perPage)
-            ->getQuery()->getResult();
+        $select = [$alias];
+        foreach ($this->getRelated() as $relation) {
+            $queryBuilder->leftJoin("$alias.$relation", $relation);
+            $select[]= $relation;
+        }
+        $queryBuilder = $queryBuilder->select($select);
+        $queryBuilder->orderBy("$alias.id")->setFirstResult($firstResult)->setMaxResults($perPage);
+        $results = $queryBuilder->getQuery()->getResult();
 
         // Get the total number of results
         $queryBuilder = $repository->createQueryBuilder($alias);
-        $total = $queryBuilder->select("COUNT($alias.id)")
-            ->getQuery()->getSingleScalarResult();
+        $total = $queryBuilder->select("COUNT($alias.id)")->getQuery()->getSingleScalarResult();
 
         return $this->json(new PaginatedResponse($results, $total));
     }
 
-    private function getEntityAlias(): string
+    /**
+     * Return the alias for the entity.
+     *
+     * @return string The alias for the entity.
+     */
+    protected function getEntityAlias(): string
     {
         return lcfirst(substr($this->getEntityClass(), strrpos($this->getEntityClass(), "\\") + 1));
+    }
+
+    /**
+     * Return the related entities to fetch.
+     *
+     * @return string[] A string array of the related entities to fetch.
+     */
+    protected function getRelated(): array
+    {
+        return [];
     }
 }

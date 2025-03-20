@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\City;
-use App\Repository\CityRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -14,24 +12,36 @@ use Symfony\Component\Routing\Attribute\Route;
  * The city controller
  */
 #[Route('/api/cities')]
-class CityController extends AbstractController
+class CityController extends BaseController
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass(): string
+    {
+        return City::class;
+    }
 
     /**
      * List cities.
      *
-     * @param CityRepository $repository The city repository.
+     * @param int $page The page to fetch.
+     * @param int $perPage The page to fetch.
      * @return Response The response.
      */
     #[Route('/', name: 'cities_list')]
-    public function list(CityRepository $repository): Response
+    public function list(int $page = 1, int $perPage = 100): Response
     {
-        $results = $repository->createQueryBuilder('city')
-            ->select('city', 'country')
-            ->leftJoin('city.country', 'country')
-            ->getQuery()->getResult();
+        return parent::list($page, $perPage);
+    }
 
-        return $this->json($results);
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRelated(): array
+    {
+        return ['country'];
     }
 
     /**
