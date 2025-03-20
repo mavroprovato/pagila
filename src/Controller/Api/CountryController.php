@@ -16,35 +16,26 @@ use Symfony\Component\Routing\Attribute\Route;
  * The country controller
  */
 #[Route('/api/countries')]
-class CountryController extends AbstractController
+class CountryController extends BaseController
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass(): string
+    {
+        return Country::class;
+    }
 
     /**
      * List countries.
      *
-     * @param CountryRepository $repository The country repository.
      * @return Response The response.
      */
     #[Route(path: '/', name: 'countries_list')]
-    public function list(
-        CountryRepository $repository,
-        #[MapQueryParameter] int $page = 1,
-        #[MapQueryParameter] int $perPage = 100,
-    ): Response
+    public function list(#[MapQueryParameter] int $page = 1, #[MapQueryParameter] int $perPage = 100): Response
     {
-        // Get the paginated results
-        $firstResult = ($page - 1) * $perPage;
-        $queryBuilder = $repository->createQueryBuilder('country');
-        $results = $queryBuilder->select('country')
-            ->orderBy('country.id')->setFirstResult($firstResult)->setMaxResults($perPage)
-            ->getQuery()->getResult();
-
-        // Get the total number of results
-        $queryBuilder = $repository->createQueryBuilder('country');
-        $total = $queryBuilder->select('COUNT(country.id)')
-            ->getQuery()->getSingleScalarResult();
-
-        return $this->json(new PaginatedResponse($results, $total));
+        return parent::list($page, $perPage);
     }
 
     /**
