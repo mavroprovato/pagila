@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Model\PaginatedResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,23 +44,15 @@ abstract class BaseController extends AbstractController
      */
     public function list(int $page = 1, int $perPage = 100): Response
     {
-        $repository = $this->entityManager->getRepository($this->getEntityClass());
         $alias = $this->getEntityAlias();
-
         // Get the paginated results
         $firstResult = ($page - 1) * $perPage;
-        $queryBuilder = $repository->createQueryBuilder($alias);
-        $select = [$alias];
-        foreach ($this->getRelated() as $relation) {
-            $queryBuilder->leftJoin("$alias.$relation", $relation);
-            $select[]= $relation;
-        }
-        $queryBuilder = $queryBuilder->select($select);
+        $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->orderBy("$alias.id")->setFirstResult($firstResult)->setMaxResults($perPage);
         $results = $queryBuilder->getQuery()->getResult();
 
         // Get the total number of results
-        $queryBuilder = $repository->createQueryBuilder($alias);
+        $queryBuilder = $this->getQueryBuilder();
         $total = $queryBuilder->select("COUNT($alias.id)")->getQuery()->getSingleScalarResult();
 
         return $this->json(new PaginatedResponse($results, $total));
@@ -83,5 +76,24 @@ abstract class BaseController extends AbstractController
     protected function getRelated(): array
     {
         return [];
+    }
+
+    /**
+     * Get the query builder.
+     *
+     * @return QueryBuilder The query builder.
+     */
+    private function getQueryBuilder(): QueryBuilder
+    {
+        $repository = $this->entityManager->getRepository($this->getEntityClass());
+        $alias = $this->getEntityAlias();
+        $queryBuilder = $repository->createQueryBuilder($alias);
+        $select = [$alias];
+        foreach ($this->getRelated() as $relation) {
+            $queryBuilder->leftJoin("$alias.$relation", $relation);
+            $select[] = $relation;
+        }
+
+        return $queryBuilder->select($select);
     }
 }
