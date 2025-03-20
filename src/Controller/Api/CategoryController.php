@@ -5,28 +5,36 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Category;
-use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * The category controller
  */
 #[Route('/api/categories')]
-class CategoryController extends AbstractController
+class CategoryController extends BaseController
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass(): string
+    {
+        return Category::class;
+    }
 
     /**
      * List categories.
      *
-     * @param CategoryRepository $repository The category repository.
+     * @param int $page The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
      */
     #[Route('/', name: 'categories_list')]
-    public function list(CategoryRepository $repository): Response
+    public function list(#[MapQueryParameter] int $page = 1, #[MapQueryParameter] int $perPage = 100): Response
     {
-        return $this->json($repository->findAll());
+        return parent::list($page, $perPage);
     }
 
     /**
