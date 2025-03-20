@@ -38,7 +38,7 @@ abstract class BaseController extends AbstractController
      * List entities.
      *
      * @param int $page The page to fetch.
-     * @param int $perPage The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
      */
     public function list(int $page = 1, int $perPage = 100): Response

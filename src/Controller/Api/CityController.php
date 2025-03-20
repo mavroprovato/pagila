@@ -27,7 +27,7 @@ class CityController extends BaseController
      * List cities.
      *
      * @param int $page The page to fetch.
-     * @param int $perPage The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
      */
     #[Route('/', name: 'cities_list')]

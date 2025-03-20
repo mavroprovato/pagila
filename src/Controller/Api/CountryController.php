@@ -28,9 +28,9 @@ class CountryController extends BaseController
      * List countries.
      *
      * @param int $page The page to fetch.
-     * @param int $perPage The page to fetch.
+     * @param int $perPage The number of results to fetch per page.
      * @return Response The response.
-    */
+     */
     #[Route(path: '/', name: 'countries_list')]
     public function list(#[MapQueryParameter] int $page = 1, #[MapQueryParameter] int $perPage = 100): Response
     {
