@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Store;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,8 +53,15 @@ class StoreController extends BaseController
     /**
      * {@inheritDoc}
      */
-    protected function getRelated(): array
+    protected function getQueryBuilder(): QueryBuilder
     {
-        return ['address'];
+        $queryBuilder = parent::getQueryBuilder();
+
+        $alias = $this->getEntityAlias();
+        $queryBuilder->leftJoin("{$alias}.address", "address")->addSelect("address");
+        $queryBuilder->leftJoin("address.city", "addressCity")->addSelect("addressCity");
+        $queryBuilder->leftJoin("addressCity.country", "addressCityCountry")->addSelect("addressCityCountry");
+
+        return $queryBuilder;
     }
 }

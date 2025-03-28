@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Film;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,8 +53,14 @@ class FilmController extends BaseController
     /**
      * {@inheritDoc}
      */
-    protected function getRelated(): array
+    protected function getQueryBuilder(): QueryBuilder
     {
-        return ['language', 'originalLanguage'];
+        $queryBuilder = parent::getQueryBuilder();
+
+        $alias = $this->getEntityAlias();
+        $queryBuilder->leftJoin("{$alias}.language", "language")->addSelect("language");
+        $queryBuilder->leftJoin("{$alias}.originalLanguage", "originalLanguage")->addSelect("originalLanguage");
+
+        return $queryBuilder;
     }
 }

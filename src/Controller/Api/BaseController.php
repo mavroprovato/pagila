@@ -60,41 +60,25 @@ abstract class BaseController extends AbstractController
     }
 
     /**
-     * Return the related entities to fetch.
-     *
-     * @return string[] A string array of the related entities to fetch.
-     */
-    protected function getRelated(): array
-    {
-        return [];
-    }
-
-    /**
      * Return the alias for the entity.
      *
      * @return string The alias for the entity.
      */
-    private function getEntityAlias(): string
+    protected function getEntityAlias(): string
     {
         return lcfirst(substr($this->getEntityClass(), strrpos($this->getEntityClass(), "\\") + 1));
     }
 
     /**
-     * Get the query builder.
-     *
-     * @return QueryBuilder The query builder.
+     * Get the query builder for the
+     * @return QueryBuilder
      */
-    private function getQueryBuilder(): QueryBuilder
+    protected function getQueryBuilder(): QueryBuilder
     {
         $repository = $this->entityManager->getRepository($this->getEntityClass());
         $alias = $this->getEntityAlias();
         $queryBuilder = $repository->createQueryBuilder($alias);
-        $select = [$alias];
-        foreach ($this->getRelated() as $relation) {
-            $queryBuilder->leftJoin("$alias.$relation", $relation);
-            $select[] = $relation;
-        }
 
-        return $queryBuilder->select($select);
+        return $queryBuilder->select($alias);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\City;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -37,14 +38,6 @@ class CityController extends BaseController
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function getRelated(): array
-    {
-        return ['country'];
-    }
-
-    /**
      * Return a city.
      *
      * @param City $city The city.
@@ -54,5 +47,18 @@ class CityController extends BaseController
     public function show(City $city): Response
     {
         return $this->json($city);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getQueryBuilder(): QueryBuilder
+    {
+        $queryBuilder = parent::getQueryBuilder();
+
+        $alias = $this->getEntityAlias();
+        $queryBuilder->leftJoin("{$alias}.country", "country")->addSelect("country");
+
+        return $queryBuilder;
     }
 }
